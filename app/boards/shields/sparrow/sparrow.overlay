@@ -33,8 +33,8 @@
 
     transform: matrix_transform {
         compatible = "zmk,matrix-transform";
-        rows = <5>;
-        columns = <6>;
+        rows = <3>;
+        columns = <12>;
         map = <
             /*(col, row)*/
             RC(0,0) RC(1,0) RC(2,0) RC(3,0) RC(4,0) RC(5,0)   RC(0,1) RC(1,1) RC(2,1) RC(3,1) RC(4,1) RC(5,1)
