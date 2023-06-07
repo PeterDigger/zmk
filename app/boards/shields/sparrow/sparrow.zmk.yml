@@ -1,0 +1,8 @@
+file_format: "1"
+id: sparrow
+name: Sparrow
+type: shield
+url: https://github.com/peterdigger/sparrow
+requires: [seeed_xiao]
+features:
+  - keys

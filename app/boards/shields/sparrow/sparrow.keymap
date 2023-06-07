@@ -1,0 +1,201 @@
+/*
+ * Copyright (c) 2022 The ZMK Contributors
+ *
+ * SPDX-License-Identifier: MIT
+ */
+
+#include <behaviors.dtsi>
+#include <dt-bindings/zmk/keys.h>
+
+#define DEF 0 // Default
+#define NAV 1 // Navigation
+#define NUM 2 // Number
+#define MSC 3 // Misc
+#define FUN 4 // Function
+#define PLO 5 // Plover
+
+// Home row mods macro
+#define HRML(k2,k3,k4) &ht LGUI k2  &ht LALT k3 &ht LCTRL k4
+#define HRMR(k1,k2,k3) &ht RCTRL k1 &ht RALT k2 &ht RGUI k3
+
+// Using layer taps on thumbs, having quick tap as well helps w/ repeating space/backspace
+// &lt { quick_tap_ms = <200>; };
+
+/ {
+    behaviors {
+        hm: homerow_mods {
+            compatible = "zmk,behavior-hold-tap";
+            label = "homerow mods";
+            #binding-cells = <2>;
+            tapping_term_ms = <225>;
+            flavor = "tap-preferred";
+            bindings = <&kp>, <&kp>;
+        };
+    };
+
+    conditional_layers {
+        compatible = "zmk,conditional-layers";
+        tri_layer {
+            if-layers = <NAV NUM>;
+            then-layer = <MSC>;
+        };        
+    };
+
+    combos {
+        compatible = "zmk,combos";
+        combo_z {
+            timeout-ms = <50>;
+            key-positions = <13 14>;
+            layer = <0>;
+            bindings = <&kp Z>;
+        };
+
+        combo_x {
+            timeout-ms = <50>;
+            key-positions = <14 15>;
+            layer = <0>;
+            bindings = <&kp X>;
+        };
+
+        combo_c {
+            timeout-ms = <50>;
+            key-positions = <15 16>;
+            layer = <0>;
+            bindings = <&kp C>;
+        };
+
+        combo_d {
+            timeout-ms = <50>;
+            key-positions = <16 17>;
+            layer = <0>;
+            bindings = <&kp D>;
+        };
+
+        combo_v {
+            timeout-ms = <50>;
+            key-positions = <17 18>;
+            layer = <0>;
+            bindings = <&kp V>;
+        };
+
+        combo_k {
+            timeout-ms = <50>;
+            key-positions = <18 19>;
+            layer = <0>;
+            bindings = <&kp K>;
+        };
+
+        combo_h {
+            timeout-ms = <50>;
+            key-positions = <19 20>;
+            layer = <0>;
+            bindings = <&kp H>;
+        };
+
+        combo_com {
+            timeout-ms = <50>;
+            key-positions = <20 21>;
+            layer = <0>;
+            bindings = <&kp COMMA>;
+        };
+
+        combo_dot {
+            timeout-ms = <50>;
+            key-positions = <21 22>;
+            layer = <0>;
+            bindings = <&kp DOT>;
+        };
+
+        combo_four {
+            timeout-ms = <50>;
+            key-positions = <28 29>;
+            layer = <0>;
+            bindings = <&mo FUN>;
+        };
+
+    };
+
+    keymap {
+        compatible = "zmk,keymap";
+
+        default_layer {
+            bindings = <
+             //╭───(0)────┬────(1)───┬────(2)───┬────(3)───┬────(4)───┬────(5)───╮   ╭────(6)───┬────(7)───┬────(8)───┬────(9)───┬───(10)───┬───(11)───╮
+             //|   ESC    │     Q    │     W    │     F    │     P    │     B    │   │     J    |     L    │     U    │     Y    │     :    │ BACKSPACE|
+            /**/  &kp ESC     &kp Q   HRML(W,         F,         P)       &kp B          &kp J   HRMR(L,         U,         Y)     &kp SEMI    &kp BKSP
+             //├───(12)───┼───(13)───┼───(14)───┼───(15)───┼───(16)───┼───(17)───┤   ├───(18)───┼───(19)───┼───(20)───┼───(21)───┼───(22)───┤───(23)───┤
+             //│  SHIFT   │     A    │     R    │     S    │     T    │     G    │   │     M    │     N    │     E    │     I    |     O    │          |
+            /**/&kp LSHIFT    &kp A      &kp R      &kp S      &kp T      &kp G          &kp M      &kp N      &kp E      &kp I      &kp O   &kp ENTER
+             //╰──────────┴──────────┴──────────┼───(24)───┼───(25)───┼───(26)───┤   ├───(27)───┼───(28)───┼───(29)───┼──────────┴──────────┼──────────╯
+             //                                 │Layer NAV │    TAB   │ BACKSPACE│   │   SPACE  │    DEL   │Layer NUM │
+            /**/                                   &mo NAV    &kp TAB    &kp BKSP      &kp SPACE  &kp DEL     &mo NUM
+             //                                 ╰──────────┴──────────┴──────────╯   ╰──────────┴──────────┴──────────╯
+            >;
+        };
+
+        nav_layer {
+            label = "Nav";
+            bindings = <
+             //╭───(0)────┬────(1)───┬────(2)───┬────(3)───┬────(4)───┬────(5)───╮   ╭────(6)───┬────(7)───┬────(8)───┬────(9)───┬───(10)───┬───(11)───╮
+             //|          │          │    WIN   │    ALT   │   SHIFT  │   CTRL   │   │    Ins   |   Home   │Page Down │  Page UP │   END    │          |
+            /**/  &trans     &trans    &kp LGUI   &kp LALT   &kp SHIFT  &kp LCTRL     &kp INSERT  &kp HOME   &kp PG_DN  &kp PG_UP  &kp END     &trans
+             //├───(12)───┼───(13)───┼───(14)───┼───(15)───┼───(16)───┼───(17)───┤   ├───(18)───┼───(19)───┼───(20)───┼───(21)───┼───(22)───┤───(23)───┤
+             //│Caps Lock │          │          │          │          │          │   │ PrintSC  │   Left   │   Down   │    Up    |   Right  │          |
+            /**/ &kp CAPS    &trans     &trans     &trans     &trans     &trans        &kp PSCRN  &kp LEFT   &kp DOWN   &kp UP   &kp RIGHT    &trans
+             //╰──────────┴──────────┴──────────┼───(24)───┼───(25)───┼───(26)───┤   ├───(27)───┼───(28)───┼───(29)───┼──────────┴──────────┼──────────╯
+             //                                 │  (HELD)  │          │          │   │          │          │Layer MSC │
+            /**/                                   &trans     &trans     &trans         &trans     &trans     &mo MSC
+             //                                 ╰──────────┴──────────┴──────────╯   ╰──────────┴──────────┴──────────╯
+            >;
+        };
+
+        num_layer {
+            label = "Num";
+            bindings = <
+             //╭───(0)────┬────(1)───┬────(2)───┬────(3)───┬────(4)───┬────(5)───╮   ╭────(6)───┬────(7)───┬────(8)───┬────(9)───┬───(10)───┬───(11)───╮
+             //|          │     `    │     '    │     [    │     ]    │     \    │   │     ,    |     .    │     /    │     -    │     =    │          |
+            /**/  &trans    &kp GRAVE HRML(SQT,      LBKT,      RBKT)   &kp BSLH      &kp COMMA  HRMR(DOT,      FSLH,      MINUS)  &kp EQUAL    &trans  
+             //├───(12)───┼───(13)───┼───(14)───┼───(15)───┼───(16)───┼───(17)───┤   ├───(18)───┼───(19)───┼───(20)───┼───(21)───┼───(22)───┤───(23)───┤
+             //│          │     1    │     2    │     3    │     4    │     5    │   │     6    │     7    │     8    │     9    |     0    │          |
+            /**/  &trans      &kp N1     &kp N2     &kp N3     &kp N4     &kp N5         &kp N6     &kp N7     &kp N8     &kp N9     &kp N0    &trans
+             //╰──────────┴──────────┴──────────┼───(24)───┼───(25)───┼───(26)───┤   ├───(27)───┼───(28)───┼───(29)───┼──────────┴──────────┼──────────╯
+             //                                 │Layer MSC │          │          │   │          │Layer FUN │  (HELD)  │
+            /**/                                   &mo MSC    &trans     &trans         &trans     &mo FUN    &trans
+             //                                 ╰──────────┴──────────┴──────────╯   ╰──────────┴──────────┴──────────╯
+            >;
+        };
+
+        msc_layer {
+            label = "Misc";
+            bindings = <
+             //╭───(0)────┬────(1)───┬────(2)───┬────(3)───┬────(4)───┬────(5)───╮   ╭────(6)──────┬────(7)──────┬─────(8)─────┬─────(9)─────┬─────(10)────┬─────(11)────╮
+             //|          │          │          │          │          │          │   │   VOL-      |    MUTE     │    VOL+     │ INC BRIGHT  │             │             |
+            /**/  &trans     &trans     &trans     &trans     &trans     &trans       &kp C_VOL_DN  &kp C_MUTE    &kp C_VOL_UP  &kp C_BRI_UP    &trans        &trans  
+             //├───(12)───┼───(13)───┼───(14)───┼───(15)───┼───(16)───┼───(17)───┤   ├────(18)─────┼────(19)─────┼─────(20)────┼─────(21)────┼─────(22)────┤─────(23)────┤
+             //│          │          │          │          │          │ TOG PLOV │   │   PREV      │ PLAY/PAUSE  │      NEXT   │ DEC BRIGHT  |             │             |
+            /**/  &trans     &trans     &trans     &trans     &trans   &tog PLOV       &kp C_PREV     &kp C_PP     &kp C_NEXT   &kp C_BRI_DN    &trans        &trans
+             //╰──────────┴──────────┴──────────┼───(24)───┼───(25)───┼───(26)───┤   ├────(27)─────┼────(28)─────┼─────(29)────┼─────────────┴─────────────┼─────────────╯
+             //                                 │  (HELD)  │          │          │   │             │             │    (HELD)   │
+            /**/                                   &trans     &trans     &trans          &trans        &trans         &trans
+             //                                 ╰──────────┴──────────┴──────────╯   ╰─────────────┴─────────────┴─────────────╯
+            >;
+        };
+
+        steno {
+            label = "Steno";
+            bindings = <
+             //╭───(0)────┬────(1)───┬────(2)───┬────(3)───┬────(4)───┬────(5)───╮   ╭────(6)───┬────(7)───┬────(8)───┬────(9)───┬───(10)───┬───(11)───╮
+             //|Layer MSC │     S    │     T    │     G    │     H    │     *    │   │     *    |     F    │     P    │     L    │     T    │     D    |
+            /**/  &mo MSC  &kp PLV_SL &kp PLV_TL &kp PLV_PL &kp PLV_HL &kp PLV_ST     &kp PLV_ST &kp PLV_FR &kp PLV_PR &kp PLV_LR &kp PLV_TR &kp PLV_DR
+             //├───(12)───┼───(13)───┼───(14)───┼───(15)───┼───(16)───┼───(17)───┤   ├───(18)───┼───(19)───┼───(20)───┼───(21)───┼───(22)───┤───(23)───┤
+             //│Layer NAV │     S    │     K    │     W    │     R    │     *    │   │     *    │     R    │     B    │     G    |     S    │     Z    |
+            /**/  &mo NAV  &kp PLV_SL &kp PLV_KL &kp PLV_WL &kp PLV_RL &kp PLV_ST     &kp PLV_ST &kp PLV_RR &kp PLV_BR &kp PLV_GR &kp PLV_SR &kp PLV_ZR
+             //╰──────────┴──────────┴──────────┼───(24)───┼───(25)───┼───(26)───┤   ├───(27)───┼───(28)───┼───(29)───┼──────────┴──────────┼──────────╯
+             //                                 │     #    │     A    │     O    │   │     E    │     U    │     #    │
+            /**/                                 &kp PLV_NM &kp PLV_A  &kp PLV_O      &kp PLV_E  &kp PLV_U  &kp PLV_NM
+             //                                 ╰──────────┴──────────┴──────────╯   ╰──────────┴──────────┴──────────╯
+            >;
+        };
+
+    };
+};

@@ -3,5 +3,6 @@
     "*.overlay": "dts",
     "*.keymap": "dts"
   },
-  "python.formatting.provider": "black"
+  "python.formatting.provider": "black",
+  "ansible.python.interpreterPath": "c:\\Users\\Personal\\AppData\\Local\\Programs\\Python\\Python311\\python.exe"
 }
